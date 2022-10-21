@@ -8,15 +8,17 @@ import {
 import { useState } from "react";
 
 export default function GoalInput(props) {
-  const [inputNewGoal, setInputInputNewGoal] = useState("");
+  const [inputNewGoal, setInputNewGoal] = useState("");
   //Function to handle key input
   function goalInputHandler(enteredText) {
-    setInputInputNewGoal(enteredText);
-    console.log(inputNewGoal);
+    setInputNewGoal(enteredText);
+    console.log("Typed");
   }
 
   function addGoalHandle() {
-    props.onAddGoal();
+    props.onAddGoal(inputNewGoal);
+    setInputNewGoal("");
+    console.log("Added");
   }
 
   return (
@@ -29,9 +31,10 @@ export default function GoalInput(props) {
         onChangeText={goalInputHandler}
         underlineColorAndroid={"transparent"}
         autoCorrect={false}
+        value={inputNewGoal}
       />
       {/*OnPress call function that adds gaol in the list*/}
-      <TouchableOpacity style={styles.btnTouch} onPress={props.onAddGoal}>
+      <TouchableOpacity style={styles.btnTouch} onPress={addGoalHandle}>
         <Text style={styles.btnTouchText}>Add Goal</Text>
       </TouchableOpacity>
     </View>

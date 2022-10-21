@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import { useState } from "react";
 import GoalItem from "./components/GoalItem";
@@ -13,17 +6,24 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   //Set State
-
   const [listOfGoals, setListOfGoals] = useState([]);
 
   //Function to set new item in the array of goals
-  function addGoalHandler() {
+  function addGoalHandler(inputNewGoal) {
     setListOfGoals((currentListOfGoals) => [
       ...currentListOfGoals,
       { text: inputNewGoal, id: Math.random().toString() },
     ]);
-    console.log(inputNewGoal);
   }
+
+  //Function to delete Items
+  function deleteGoalHandler(id) {
+    setListOfGoals((currentListOfGoals) => {
+      return currentListOfGoals.filter((goal) => goal.id !== id);
+    });
+    console.log("deleted");
+  }
+
   return (
     <View style={styles.container}>
       {/*Header*/}
@@ -39,7 +39,13 @@ export default function App() {
         style={styles.goalsContainer}
         data={listOfGoals}
         renderItem={(itemData) => {
-          return <GoalItem text={itemData.item.text} />;
+          return (
+            <GoalItem
+              id={itemData.item.id}
+              text={itemData.item.text}
+              onDeleteItem={deleteGoalHandler}
+            />
+          );
         }}
         keyExtractor={(item, index) => {
           return item.id;
