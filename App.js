@@ -10,18 +10,20 @@ export default function App() {
 
   //Function to set new item in the array of goals
   function addGoalHandler(inputNewGoal) {
-    setListOfGoals((currentListOfGoals) => [
-      ...currentListOfGoals,
-      { text: inputNewGoal, id: Math.random().toString() },
-    ]);
+    setListOfGoals(
+      listOfGoals.concat({ text: inputNewGoal, id: new Date().getTime() })
+    );
   }
 
   //Function to delete Items
-  function deleteGoalHandler(id) {
-    setListOfGoals((currentListOfGoals) => {
-      return currentListOfGoals.filter((goal) => goal.id !== id);
+  function deleteGoalHandler() {
+    let array = listOfGoals;
+    let toKeep = array.filter((item) => {
+      if (item.id !== id) {
+        return item;
+      }
     });
-    console.log("deleted");
+    setListOfGoals([...toKeep]);
   }
 
   return (
