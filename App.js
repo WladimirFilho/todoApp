@@ -1,12 +1,28 @@
 import { StyleSheet, Text, View, FlatList } from "react-native";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   //Set State
   const [listOfGoals, setListOfGoals] = useState([]);
+  const [startup, setStartup] = useState(true);
+
+  useEffect(() => {
+    if (startup === true) {
+      readItems();
+      setStartup(false);
+    }
+  }, [startup]);
+
+  useEffect(() => {
+    if (listOfGoals.length >= 0 && startup === false) {
+      saveItems();
+    }
+  }, [listOfGoals]);
 
   //Function to set new item in the array of goals
   function addGoalHandler(inputNewGoal) {
@@ -25,6 +41,26 @@ export default function App() {
     });
     setListOfGoals([...toKeep]);
   }
+
+  // function to save items into storage
+  const saveItems = async () => {
+    // console.log('saving items...')
+    const data = JSON.stringify(listOfGoals);
+    // use asyncstorage to store data
+    try {
+      await AsyncStorage.setItem("ListData", data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // function to read items from storage
+  const readItems = async () => {
+    // console.log('loading data...')
+    let data = await AsyncStorage.getItem("ListData");
+    data = data !== null ? JSON.parse(data) : [];
+    setListOfGoals(data);
+  };
 
   return (
     <View style={styles.container}>
