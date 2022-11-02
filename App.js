@@ -16,7 +16,7 @@ export default function App() {
   }
 
   //Function to delete Items
-  function deleteGoalHandler() {
+  function deleteGoalHandler(id) {
     let array = listOfGoals;
     let toKeep = array.filter((item) => {
       if (item.id !== id) {

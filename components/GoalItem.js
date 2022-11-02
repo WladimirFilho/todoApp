@@ -2,7 +2,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 
 export default function GoalItem(props) {
   return (
-    <TouchableOpacity onPress={props.onDeleteItem(props.id)}>
+    <TouchableOpacity onPress={() => props.onDeleteItem(props.id)}>
       <View style={styles.goalStyle}>
         <Text>{props.text}</Text>
       </View>
