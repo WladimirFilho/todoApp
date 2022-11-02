@@ -24,7 +24,7 @@ export default function App() {
     }
   }, [listOfGoals]);
 
-  //Function to set new item in the array of goals
+  //Function to set new item in the array of goal
   function addGoalHandler(inputNewGoal) {
     setListOfGoals(
       listOfGoals.concat({ text: inputNewGoal, id: new Date().getTime() })
